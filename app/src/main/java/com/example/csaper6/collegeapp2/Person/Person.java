@@ -7,23 +7,23 @@ import java.util.Date;
  */
 
 public class Person {
-    private Date dateOfBirth;
+    private String age;
     private String fName,lName;
     private String job;
 
-    public Person(Date dateOfBirth, String fName, String lName,String job) {
-        this.dateOfBirth = dateOfBirth;
+    public Person(String age, String fName, String lName,String job) {
+        this.age = age;
         this.fName = fName;
         this.lName = lName;
         this.job=job ;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public String getage() {
+        return age;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setageh(String age) {
+        this.age = age;
     }
 
     public String getfName() {

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+      static FloatingActionButton floatingActionButtonAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +26,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        floatingActionButtonAdd=(FloatingActionButton)findViewById(R.id.content_main_floatingactionbutton_add);
+        floatingActionButtonAdd.hide();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -82,7 +77,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment fragment = null;
+        Fragment fragment =null;
         if (id == R.id.MyProfile) {
 
         } else if (id == R.id.MyFamily) {
@@ -90,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         }
         if (fragment!=null){
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_family_listView,fragment);
+            ft.replace(R.id.content_main,fragment);
             ft.commit();
         }
 

@@ -39,7 +39,7 @@ public class PersonAdapter extends ArrayAdapter<Person>{
         fNametextView.setText(person.getfName());
         lNametextView.setText(person.getlName());
         jobtextView.setText(person.getJob());
-        dateTextView.setText(person.getDateOfBirth().toString());
+        dateTextView.setText(person.getage().toString());
 
         return convertView;
     }

@@ -13,4 +13,17 @@
     tools:context="com.example.csaper6.collegeapp2.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="28dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="26dp"
+        android:id="@+id/content_main_floatingactionbutton_add" />
 </RelativeLayout>

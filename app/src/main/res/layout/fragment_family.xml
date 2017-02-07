@@ -1,24 +1,17 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.csaper6.collegeapp2.FamilyFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="509dp"
-        android:id="@+id/fragment_family_listView" />
+        android:layout_width="match_parent"
+        android:id="@+id/fragment_family_listView"
+        android:layout_above="@+id/floatingActionButton"
+        android:layout_height="match_parent" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:id="@+id/fragment_family_floatingActionButton_addNewPerson"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
-</RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
