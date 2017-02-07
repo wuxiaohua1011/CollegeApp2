@@ -4,6 +4,7 @@ package com.example.csaper6.collegeapp2;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -72,8 +73,12 @@ public class FamilyFragment extends ListFragment {
         floatingActionButtonaddNewPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Fragment fragment = new CreateNewPersonFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_main,fragment).commit();
             }
         });
     }
+
+
 }
