@@ -1,15 +1,20 @@
 package com.example.csaper6.collegeapp2;
 
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,17 +34,41 @@ import java.util.Map;
 import java.util.zip.Inflater;
 
 
+
 public class FamilyFragment extends ListFragment {
     View rootView;
     FloatingActionButton floatingActionButtonaddNewPerson;
     ListView listView;
     List<Person> family;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         rootView = super.onCreateView(inflater, container, savedInstanceState);
         wireWidget();
         displayFamilyElements();
+
+        listView = (ListView)rootView.findViewById(R.id.fragment_family_listView);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                alertDialogBuilder.setTitle("Do you want to edit this person?");
+                alertDialogBuilder.setCancelable(true).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+
+                return false;
+            }
+        });
         return rootView;
     }
 
@@ -67,7 +96,7 @@ public class FamilyFragment extends ListFragment {
     }
 
     private void wireWidget() {
-        listView = (ListView)rootView.findViewById(R.id.fragment_family_listView);
+
         floatingActionButtonaddNewPerson=MainActivity.floatingActionButtonAdd;
         floatingActionButtonaddNewPerson.show();
         floatingActionButtonaddNewPerson.setOnClickListener(new View.OnClickListener() {

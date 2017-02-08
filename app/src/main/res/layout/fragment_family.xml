@@ -9,7 +9,6 @@
     <ListView
         android:layout_width="match_parent"
         android:id="@+id/fragment_family_listView"
-        android:layout_above="@+id/floatingActionButton"
         android:layout_height="match_parent" />
 
 

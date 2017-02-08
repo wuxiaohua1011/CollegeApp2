@@ -1,5 +1,6 @@
 package com.example.csaper6.collegeapp2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ public class CreateNewPersonFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_create_new_person, container, false);
+
 
         wireWidget();
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
