@@ -1,5 +1,6 @@
 package com.example.csaper6.collegeapp2;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -27,10 +28,24 @@ public class CreateNewPersonFragment extends Fragment {
     Button buttonSubmit;
     Spinner spinnerRelationship;
     View rootView;
+
+    String stringeditTextfName,  stringeditTextlname,stringeditTextage, stringeditTextjob;
+
+    public CreateNewPersonFragment() {
+    }
+
+    @SuppressLint("ValidFragment")
+    public CreateNewPersonFragment(String editTextfName, String editTextlname, String editTextage, String editTextjob) {
+        this.stringeditTextfName=editTextfName;
+        this.stringeditTextlname= editTextlname;
+        this.stringeditTextage = editTextage;
+        this.stringeditTextjob = editTextjob;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_create_new_person, container, false);
-
+        MainActivity.fragmentArrayList.add(CreateNewPersonFragment.this);
         wireWidget();
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +105,28 @@ public class CreateNewPersonFragment extends Fragment {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.relationship, android.R.layout.simple_spinner_item); // Creating adapter for spinner
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); //specify drop-down style
         spinnerRelationship.setAdapter(adapter);
+
+        editTextage.setText(stringeditTextage);
+        editTextfName.setText(stringeditTextfName);
+        editTextlname.setText(stringeditTextlname );
+        editTextjob.setText(stringeditTextjob);
+
+
     }
 
+    public EditText getEditTextfName() {
+        return editTextfName;
+    }
+
+    public EditText getEditTextlname() {
+        return editTextlname;
+    }
+
+    public EditText getEditTextage() {
+        return editTextage;
+    }
+
+    public EditText getEditTextjob() {
+        return editTextjob;
+    }
 }

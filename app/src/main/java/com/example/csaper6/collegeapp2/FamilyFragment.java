@@ -10,7 +10,9 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
@@ -40,7 +42,22 @@ public class FamilyFragment extends ListFragment {
         rootView = super.onCreateView(inflater, container, savedInstanceState);
         wireWidget();
         displayFamilyElements();
+        MainActivity.fragmentArrayList.add(FamilyFragment.this);
         return rootView;
+    }
+
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        String fname = ((TextView) v.findViewById(R.id.person_adapter_textview_fname)).getText().toString();
+        String lname = ((TextView) v.findViewById(R.id.person_adapter_textview_lastname)).getText().toString();
+        String age = ((TextView) v.findViewById(R.id.person_adapter_dateofbirth)).getText().toString();
+        String job = ((TextView) v.findViewById(R.id.person_adapter_textview_job)).getText().toString();
+
+        Fragment fragment = new CreateNewPersonFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_main,new CreateNewPersonFragment(fname,lname,age,job)).commit();
+
     }
 
     private void displayFamilyElements() {

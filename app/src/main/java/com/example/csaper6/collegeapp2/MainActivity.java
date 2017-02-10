@@ -1,5 +1,6 @@
 package com.example.csaper6.collegeapp2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,12 +19,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-      static FloatingActionButton floatingActionButtonAdd;
+        static FloatingActionButton floatingActionButtonAdd;
         static ArrayList<Fragment> fragmentArrayList;
 
     @Override
@@ -52,11 +55,34 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(fragmentArrayList.size()<=1){
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialog.setTitle("To Quit or Not to Quit?");
+                alertDialog.setMessage("This will quit the App");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.super.onBackPressed();
+                    }
+                });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //do nothing
+                    }
+                });
+                alertDialog.show();
+            }
+            else{
+                Fragment lastFragment = fragmentArrayList.get(fragmentArrayList.size()-2);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_main,lastFragment);
+                ft.commit();
+                Toast.makeText(this, ""+fragmentArrayList.size(), Toast.LENGTH_SHORT).show();
+                fragmentArrayList.remove(fragmentArrayList.size()-1);
+            }
+
         }
-
-
-
     }
 
     @Override

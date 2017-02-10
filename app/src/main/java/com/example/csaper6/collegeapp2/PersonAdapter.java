@@ -18,6 +18,27 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 public class PersonAdapter extends ArrayAdapter<Person>{
+    public TextView getfNametextView() {
+        return fNametextView;
+    }
+
+    public TextView getlNametextView() {
+        return lNametextView;
+    }
+
+    public TextView getJobtextView() {
+        return jobtextView;
+    }
+
+    public TextView getDateTextView() {
+        return dateTextView;
+    }
+
+    TextView fNametextView ;
+    TextView lNametextView ;
+    TextView jobtextView;
+    TextView dateTextView;
+
 
     public PersonAdapter(Context context, List<Person> objects) {
         super(context, 0, objects);
@@ -31,10 +52,10 @@ public class PersonAdapter extends ArrayAdapter<Person>{
         }
         Person person = getItem(position);
 
-        TextView fNametextView = (TextView)convertView.findViewById(R.id.person_adapter_textview_fname);
-        TextView lNametextView = (TextView)convertView.findViewById(R.id.person_adapter_textview_lastname);
-        TextView jobtextView = (TextView)convertView.findViewById(R.id.person_adapter_textview_job);
-        TextView dateTextView = (TextView)convertView.findViewById(R.id.person_adapter_dateofbirth);
+        fNametextView = (TextView)convertView.findViewById(R.id.person_adapter_textview_fname);
+        lNametextView = (TextView)convertView.findViewById(R.id.person_adapter_textview_lastname);
+        jobtextView = (TextView)convertView.findViewById(R.id.person_adapter_textview_job);
+        dateTextView = (TextView)convertView.findViewById(R.id.person_adapter_dateofbirth);
 
         fNametextView.setText(person.getfName());
         lNametextView.setText(person.getlName());
