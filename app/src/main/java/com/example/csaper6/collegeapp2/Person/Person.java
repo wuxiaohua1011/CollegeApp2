@@ -10,12 +10,18 @@ public class Person {
     private String age;
     private String fName,lName;
     private String job;
+    private String objectId;
 
-    public Person(String age, String fName, String lName,String job) {
+    public Person(String age, String fName, String lName,String job,String objectId) {
         this.age = age;
         this.fName = fName;
         this.lName = lName;
         this.job=job ;
+        this.objectId = objectId;
+    }
+
+    public String getObjectId() {
+        return objectId;
     }
 
     public String getage() {

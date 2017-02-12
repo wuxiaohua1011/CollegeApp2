@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,18 +29,21 @@ public class CreateNewPersonFragment extends Fragment {
     Button buttonSubmit;
     Spinner spinnerRelationship;
     View rootView;
+    boolean editMode = false;
 
-    String stringeditTextfName,  stringeditTextlname,stringeditTextage, stringeditTextjob;
+    String stringeditTextfName, stringeditTextlname,stringeditTextage, stringeditTextjob,objectId;
 
     public CreateNewPersonFragment() {
     }
 
     @SuppressLint("ValidFragment")
-    public CreateNewPersonFragment(String editTextfName, String editTextlname, String editTextage, String editTextjob) {
+    public CreateNewPersonFragment(String editTextfName, String editTextlname, String editTextage, String editTextjob, String objectId) {
+        editMode=true;
         this.stringeditTextfName=editTextfName;
         this.stringeditTextlname= editTextlname;
         this.stringeditTextage = editTextage;
         this.stringeditTextjob = editTextjob;
+        this.objectId = objectId;
     }
 
     @Override
@@ -50,35 +54,94 @@ public class CreateNewPersonFragment extends Fragment {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              if (checkEmpty()){
-                  HashMap hashMap = new HashMap();
-                  hashMap.put("age",editTextage.getText().toString());
-                  hashMap.put("FName",editTextfName.getText().toString());
-                  hashMap.put("LName",editTextlname.getText().toString());
-                  hashMap.put("occupation",editTextjob.getText().toString());
-
-                  Backendless.Persistence.of("Guardian").save(hashMap, new AsyncCallback<Map>() {
-                      @Override
-                      public void handleResponse(Map response) {
-                          Toast.makeText(getActivity(), "Data Uploaded", Toast.LENGTH_SHORT).show();
-                          Fragment fragment = new FamilyFragment();
-                          FragmentManager fragmentManager = getFragmentManager();
-                          fragmentManager.beginTransaction().replace(R.id.content_main,fragment).commit();
-                      }
-
-                      @Override
-                      public void handleFault(BackendlessFault fault) {
-                          Toast.makeText(getActivity(), fault.getMessage(), Toast.LENGTH_SHORT).show();
-                      }
-                  });
-              }
-                else{
-                  Toast.makeText(getActivity(), "Please Make Sure You filled All spaces", Toast.LENGTH_SHORT).show();
-              }
+                if (editMode){
+                    updateData();
+                }
+                else
+                {
+                    submitNewData();
+                }
             }
         });
         return rootView;
     }
+
+    private void updateData() {
+        //Delete the original object
+        Backendless.Persistence.of("Guardian").findById(objectId, new AsyncCallback<Map>() {
+            @Override
+            public void handleResponse(Map response) {
+                Backendless.Persistence.of("Guardian").remove(response, new AsyncCallback<Long>() {
+                    @Override
+                    public void handleResponse(Long response) {
+                                HashMap hashMap = new HashMap();
+                                hashMap.put("age",editTextage.getText().toString());
+                                hashMap.put("FName",editTextfName.getText().toString());
+                                hashMap.put("LName",editTextlname.getText().toString());
+                                hashMap.put("occupation",editTextjob.getText().toString());
+
+                                Backendless.Persistence.of("Guardian").save(hashMap, new AsyncCallback<Map>() {
+                                    @Override
+                                    public void handleResponse(Map response) {
+                                        Toast.makeText(getActivity(), "Data Uploaded", Toast.LENGTH_SHORT).show();
+                                        Fragment fragment = new FamilyFragment();
+                                        FragmentManager fragmentManager = getFragmentManager();
+                                        fragmentManager.beginTransaction().replace(R.id.content_main,fragment).commit();
+                                    }
+
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+                                        Toast.makeText(getActivity(), fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                            }
+
+                                            @Override
+                                            public void handleFault(BackendlessFault fault) {
+
+                                            }
+                                        });
+                                    }
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+                                        Toast.makeText(getActivity(), fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+    }
+
+
+
+
+    private void submitNewData() {
+                if (checkEmpty()){
+                    HashMap hashMap = new HashMap();
+                    hashMap.put("age",editTextage.getText().toString());
+                    hashMap.put("FName",editTextfName.getText().toString());
+                    hashMap.put("LName",editTextlname.getText().toString());
+                    hashMap.put("occupation",editTextjob.getText().toString());
+
+                    Backendless.Persistence.of("Guardian").save(hashMap, new AsyncCallback<Map>() {
+                        @Override
+                        public void handleResponse(Map response) {
+                            Toast.makeText(getActivity(), "Data Uploaded", Toast.LENGTH_SHORT).show();
+                            Fragment fragment = new FamilyFragment();
+                            FragmentManager fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction().replace(R.id.content_main,fragment).commit();
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Toast.makeText(getActivity(), fault.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(getActivity(), "Please Make Sure You filled All spaces", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+
 
     private boolean checkEmpty() {
         boolean temp1 = editTextfName.getText().toString().equals("");
@@ -106,27 +169,16 @@ public class CreateNewPersonFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); //specify drop-down style
         spinnerRelationship.setAdapter(adapter);
 
-        editTextage.setText(stringeditTextage);
-        editTextfName.setText(stringeditTextfName);
-        editTextlname.setText(stringeditTextlname );
-        editTextjob.setText(stringeditTextjob);
-
+        if (editMode) {
+            editTextage.setText(stringeditTextage);
+            editTextfName.setText(stringeditTextfName);
+            editTextlname.setText(stringeditTextlname);
+            editTextjob.setText(stringeditTextjob);
+        }
+        else{
+            //do nothing
+        }
 
     }
 
-    public EditText getEditTextfName() {
-        return editTextfName;
-    }
-
-    public EditText getEditTextlname() {
-        return editTextlname;
-    }
-
-    public EditText getEditTextage() {
-        return editTextage;
-    }
-
-    public EditText getEditTextjob() {
-        return editTextjob;
-    }
 }

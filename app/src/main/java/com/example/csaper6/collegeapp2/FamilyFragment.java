@@ -49,14 +49,19 @@ public class FamilyFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        String fname = ((TextView) v.findViewById(R.id.person_adapter_textview_fname)).getText().toString();
-        String lname = ((TextView) v.findViewById(R.id.person_adapter_textview_lastname)).getText().toString();
-        String age = ((TextView) v.findViewById(R.id.person_adapter_dateofbirth)).getText().toString();
-        String job = ((TextView) v.findViewById(R.id.person_adapter_textview_job)).getText().toString();
+        Person person = family.get(position);
+        String fname = person.getfName();
+                // ((TextView) v.findViewById(R.id.person_adapter_textview_fname)).getText().toString();
+        String lname =  person.getlName();
+                //((TextView) v.findViewById(R.id.person_adapter_textview_lastname)).getText().toString();
+        String age = person.getage();
+                //((TextView) v.findViewById(R.id.person_adapter_dateofbirth)).getText().toString();
+        String job = person.getJob();
+                //((TextView) v.findViewById(R.id.person_adapter_textview_job)).getText().toString();
+        String objectId = person.getObjectId();
 
-        Fragment fragment = new CreateNewPersonFragment();
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_main,new CreateNewPersonFragment(fname,lname,age,job)).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_main,new CreateNewPersonFragment(fname,lname,age,job,objectId)).commit();
 
     }
 
@@ -67,7 +72,7 @@ public class FamilyFragment extends ListFragment {
                 family=new ArrayList<Person>();
                 for (int i = 0; i < response.getData().size(); i ++){
                     Map temp = response.getData().get(i);
-                    Person person = new Person(temp.get("age").toString(),temp.get("FName").toString(),temp.get("LName").toString(),temp.get("occupation").toString());
+                    Person person = new Person(temp.get("age").toString(),temp.get("FName").toString(),temp.get("LName").toString(),temp.get("occupation").toString(),temp.get("objectId").toString());
                     family.add(i, person);
                 }
                 PersonAdapter personAdapter = new PersonAdapter(getActivity(), family);
